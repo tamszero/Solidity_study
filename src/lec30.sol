@@ -3,7 +3,7 @@ pragma solidity >= 0.7.0 < 0.9.0;
 
 //modifier
 //여러 함수에 한번에 적용 가능
-
+// 함수 본문 실행 전에 모디파이어의 조건이 먼저 평가, 조건 불충족 시 `revert`로 실행을 멈춤
 
 contract lec30{
 
