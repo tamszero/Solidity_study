@@ -23,5 +23,34 @@ contract lec32{
 
     */
 
+    //_to -> 송금받을 사람의 주소 
+    //_to는 스마트컨트랙 주소도 가능. -> 스마트 컨트랙도 이더를 받을 수 있다
+    event howMuch(uint256 _value);
+
+    function sendNow(address payable _to) public payable {
+        bool sent = _to.send(msg.value); //송금의 성공 여부를 return함
+        require(sent, "Failed to send Ether"); // 송금 실패시 에러
+        emit howMuch(msg.value); 
+    }
+
+    function transferNow(address payable _to) public payable {
+        _to.transfer(msg.value); //transfer는 자체적으로 에러처리가 되므로 따로 안 써줘도 됨
+        emit howMuch(msg.value);
+    }
+
+    function callNow(address payable _to) public payable {
+        //0.7버전 이상부터는 형식이 조금 달라짐
+        //~0.7
+        /*
+        (bool sent, ) = _to.call.gas(1000).value(msg.value)("");
+        require(sent, "Failed to sent either")
+        */
+        
+        //0.7~
+        (bool sent, ) = _to.call{value: msg.value, gas:1000}(""); //포크 이후 가스 가격이 오르기 때문에 가스를 지정해주지 않는 것이 좋음
+        require(sent, "Failed to send Ether");
+        emit howMuch(msg.value);
+    }
+
     
 }
