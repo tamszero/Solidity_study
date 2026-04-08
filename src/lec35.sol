@@ -34,6 +34,7 @@ receive() external payable{
 
 */
 
+//receive fallback 함수가 있기 때문에 bank자체에서 송금 받을 수도 있음 -> account에서 보내보기 ->  low level interaction
 contract bank{
 
     event JustFallbackWithFunds(address _from, uint256 _value, string message);
